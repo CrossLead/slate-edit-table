@@ -12,33 +12,43 @@ function isSelectionInTable(opts, value) {
     if (!value.selection.startKey) return false;
 
     var startBlock = value.startBlock,
-        endBlock = value.endBlock;
+        endBlock = value.endBlock,
+        document = value.document;
 
     // Only handle events in cells
 
-    if (startBlock.type !== opts.typeCell || endBlock.type !== opts.typeCell) {
+    if (startBlock.type !== opts.typeCell && !document.getClosest(startBlock.key, function (n) {
+        return n.type === opts.typeCell;
+    }) && endBlock.type !== opts.typeCell && !document.getClosest(endBlock.key, function (n) {
+        return n.type === opts.typeCell;
+    })) {
         return false;
     }
 
     if (startBlock === endBlock) {
-        return startBlock.type === opts.typeCell;
+        return true;
     }
     // Not the same cell, look into ancestor chain:
 
-    var startAncestors = value.document.getAncestors(startBlock.key).slice(-2);
-    var endAncestors = value.document.getAncestors(endBlock.key).slice(-2);
-
     // Check for same table row
-    var startRow = startAncestors.last();
-    var endRow = endAncestors.last();
+    var startRow = document.getClosest(startBlock.key, function (n) {
+        return n.type === opts.typeRow;
+    });
+    var endRow = document.getClosest(endBlock.key, function (n) {
+        return n.type === opts.typeRow;
+    });
     if (startRow === endRow) {
         return true;
     }
     // Different rows
 
     // Check for same table
-    var startTable = startAncestors.first();
-    var endTable = endAncestors.first();
+    var startTable = document.getClosest(startBlock.key, function (n) {
+        return n.type === opts.typeTable;
+    });
+    var endTable = document.getClosest(endBlock.key, function (n) {
+        return n.type === opts.typeTable;
+    });
     return startTable === endTable;
 }
 
