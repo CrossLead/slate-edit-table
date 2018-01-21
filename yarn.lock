@@ -3980,9 +3980,9 @@ slate-react@^0.10.0:
     slate-plain-serializer "^0.4.6"
     slate-prop-types "^0.4.6"
 
-slate@^0.31.7:
-  version "0.31.7"
-  resolved "https://registry.yarnpkg.com/slate/-/slate-0.31.7.tgz#595b5e4ef45f7385a4535a4595fb0c6ebe326b45"
+slate@^0.31.8:
+  version "0.31.8"
+  resolved "https://registry.yarnpkg.com/slate/-/slate-0.31.8.tgz#d93fd397bcceb2b5eb2e1cbafa20643044230d63"
   dependencies:
     debug "^2.3.2"
     direction "^0.1.5"
